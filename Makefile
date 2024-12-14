@@ -3,7 +3,7 @@ name = minishell
 
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror  #-fsanitize=address -g3  
+CFLAGS = -Wall -Wextra -Werror  -fsanitize=address -g3  
 
 # Directories
 SRC_DIR = .
@@ -34,6 +34,7 @@ SRC =minishell.c \
 	execution/run_builtin.c \
 	execution/run_one_builtin.c \
 	execution/utils1.c \
+	execution/utils2.c\
 	execution/signal.c \
     parsing/ft_expending.c \
 	parsing/ft_expand_her.c \

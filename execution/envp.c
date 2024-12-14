@@ -70,3 +70,47 @@ char	**get_envp(t_env *envp, char **env)
 	}
 	return (str);
 }
+
+void	ft_add_env_var(char *env_var, t_env **envp)
+{
+	char	*value;
+	char	*var_name;
+	t_env	*new_env;
+
+	var_name = ft_extract_variable_name(env_var);
+	value = ft_strsrch(env_var, '=');
+	if (value)
+		value = ft_strdup(value);
+	if (update_existing_variable(var_name, value, *envp))
+		return ;
+	else
+	{
+		new_env = ft_calloc(sizeof(t_env), 1);
+		if (!new_env)
+			return ;
+		new_env->value = value;
+		new_env->var = var_name;
+		ft_add_node_to_env_list(envp, new_env);
+	}
+}
+
+int	update_existing_variable(char *var, char *value, t_env *envp)
+{
+	while (envp)
+	{
+		if (!ft_strcmp(envp->var, var))
+		{
+			if (ft_strchr(value, '='))
+			{
+				if (envp->value)
+					free(envp->value);
+				envp->value = value;
+				envp->egnor = 0;
+			}
+			free(var);
+			return (1);
+		}
+		envp = envp->next;
+	}
+	return (0);
+}

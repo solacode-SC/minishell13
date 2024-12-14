@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd_as_child.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iait-bou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: soel-mou <soel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 19:16:49 by iait-bou          #+#    #+#             */
-/*   Updated: 2024/12/11 19:16:51 by iait-bou         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:38:45 by soel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	run_first_cmd(t_data *data, t_us_var var, char **env, t_env **envp)
 		dup2(var.pipe[var.i][1], 1);
 	close(var.pipe[var.i][0]);
 	close(var.pipe[var.i][1]);
-	execve(var.path_cmd, data->cmd, env);
+	ft_execve(data, var, *envp, env);
 }
 
 void	run_second_cmd(t_data *data, t_us_var var, char **env, t_env **envp)
@@ -63,7 +63,7 @@ void	run_second_cmd(t_data *data, t_us_var var, char **env, t_env **envp)
 	close(var.pipe[var.i - 1][0]);
 	close(var.pipe[var.i][0]);
 	close(var.pipe[var.i][1]);
-	execve(var.path_cmd, data->cmd, env);
+	ft_execve(data, var, *envp, env);
 }
 
 void	run_last_cmd(t_data *data, t_us_var var, char **env, t_env **envp)
@@ -87,11 +87,13 @@ void	run_last_cmd(t_data *data, t_us_var var, char **env, t_env **envp)
 		close(var.outfd);
 	}
 	close(var.pipe[var.i - 1][0]);
-	execve(var.path_cmd, data->cmd, env);
+	ft_execve(data, var, *envp, env);
 }
 
 void	run_cmd_as_child(t_data *data, t_us_var var, char **env, t_env **envp)
 {
+	signal(SIGINT, handle_ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
 	if (var.i == 0)
 		run_first_cmd(data, var, env, envp);
 	if (var.i < var.count_cmd - 1)

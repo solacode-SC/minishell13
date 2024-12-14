@@ -6,13 +6,13 @@
 /*   By: soel-mou <soel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 19:54:02 by soel-mou          #+#    #+#             */
-/*   Updated: 2024/12/11 20:43:49 by soel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:11:14 by soel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_global	g;
+t_global	g_var;
 
 int	check_quote(char *str)
 {
@@ -42,7 +42,7 @@ int	ft_token(char c, int *singl, int *doubl)
 		*singl *= -1;
 	if (c == '\"' && *singl != -1)
 		*doubl *= -1;
-	if (ft_strsrch("\t\v\n ", c) && (*singl != -1 && *doubl != -1))
+	if (ft_strsrch("<>|\t\v\n ", c) && (*singl != -1 && *doubl != -1))
 		return (0);
 	else
 		return (1);
@@ -50,10 +50,10 @@ int	ft_token(char c, int *singl, int *doubl)
 
 void	chang_status(t_env *envp)
 {
-	if (g.exit_s != 0)
+	if (g_var.exit_s != 0)
 	{
-		envp->exit = g.exit_s;
-		g.exit_s = 0;
+		envp->exit = g_var.exit_s;
+		g_var.exit_s = 0;
 	}
 }
 
@@ -69,6 +69,7 @@ int	ft_minishell(t_data *data, t_env **envp, char *len)
 	if (!check_quote(len))
 	{
 		write(2, "syntax error\n", ft_strlen("syntax error\n"));
+		g_var.exit_s = 2;
 		free(len);
 	}
 	else
@@ -97,7 +98,7 @@ int	main(int ac, char **av, char **env)
 		exit(127);
 	}
 	initialize_environment(env, &envp);
-	signal(SIGINT, handle_CTRL_C);
+	signal(SIGINT, handle_ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
@@ -105,9 +106,9 @@ int	main(int ac, char **av, char **env)
 		if (ft_minishell(data, &envp, len))
 			break ;
 	}
-	g.exit_s = envp->exit;
+	g_var.exit_s = envp->exit;
 	free_envp(envp);
 	rl_clear_history();
 	printf("exit\n");
-	exit(g.exit_s);
+	exit(g_var.exit_s);
 }

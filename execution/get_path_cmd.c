@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_path_cmd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: soel-mou <soel-mou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 13:44:11 by iait-bou          #+#    #+#             */
+/*   Updated: 2024/12/14 15:37:25 by soel-mou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -52,8 +62,7 @@ char	*get_path_cmd(t_us_var var, t_data *data)
 	}
 	if (var.path_spt[i] == NULL)
 	{
-		write(2, data->cmd[0], ft_strlen(data->cmd[0]));
-		write(2, ":command not found\n", ft_strlen(":command not found\n"));
+		print_error1(data->cmd[0], ": command not found", "\n");
 		free_exit(NULL, var, 127, data);
 	}
 	return (NULL);

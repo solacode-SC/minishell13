@@ -6,7 +6,7 @@
 /*   By: iait-bou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 19:16:03 by iait-bou          #+#    #+#             */
-/*   Updated: 2024/12/11 19:16:07 by iait-bou         ###   ########.fr       */
+/*   Updated: 2024/12/12 14:21:00 by iait-bou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,37 +79,4 @@ void	free_and_exit(t_data *data, t_us_var var, t_env *envp, int exit_s)
 	free_var(&var);
 	rl_clear_history();
 	exit(exit_s);
-}
-
-void	free_data(t_data *data)
-{
-	t_data	*tmp;
-
-	while (data)
-	{
-		tmp = data->next;
-		ft_free1(data->cmd);
-		free_file(data->file);
-		free(data);
-		data = tmp;
-	}
-	free(data);
-}
-
-void	free_envp(t_env *envp)
-{
-	t_env	*tmp;
-
-	double_free(envp->env);
-	while (envp)
-	{
-		tmp = envp;
-		envp = envp->next;
-		free(tmp->var);
-		if (tmp->value)
-			free(tmp->value);
-		if (tmp->pwd)
-			free(tmp->pwd);
-		free(tmp);
-	}
 }

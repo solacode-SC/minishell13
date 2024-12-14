@@ -6,11 +6,35 @@
 /*   By: iait-bou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 19:17:35 by iait-bou          #+#    #+#             */
-/*   Updated: 2024/12/11 19:17:38 by iait-bou         ###   ########.fr       */
+/*   Updated: 2024/12/12 20:35:53 by iait-bou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_extract_variable_name(char *str)
+{
+	int		i;
+	char	*var_name;
+	int		len;
+
+	i = 0;
+	len = 0;
+	while (str[len] && str[len] != '=' && str[len] != '+')
+		len++;
+	var_name = ft_calloc(sizeof(char), len + 1);
+	if (var_name == NULL)
+		return (NULL);
+	len = 0;
+	while (str[i] && str[i] != '=')
+	{
+		if (str[i] != '+')
+			var_name[len++] = str[i];
+		i++;
+	}
+	var_name[len] = '\0';
+	return (var_name);
+}
 
 void	print(t_env *envp)
 {

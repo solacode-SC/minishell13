@@ -40,6 +40,7 @@ int	input_file(t_file *file, t_us_var *var)
 		return (1);
 	return (0);
 }
+
 int	output_file(t_file *file, t_us_var *var)
 {
 	if (file->outfile == 1)

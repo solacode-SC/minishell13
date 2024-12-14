@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run_one_builtin.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iait-bou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 20:36:39 by iait-bou          #+#    #+#             */
+/*   Updated: 2024/12/12 20:36:52 by iait-bou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-//  run the   builting here  please .......................................
 void	dup_and_run(t_data *data, t_us_var var, t_env **envp, int flag)
 {
 	var.fd = dup(1);
@@ -16,6 +27,7 @@ void	dup_and_run(t_data *data, t_us_var var, t_env **envp, int flag)
 	dup2(var.fd, 1);
 	close(var.fd);
 }
+
 int	is_builtin_command(char *cmd)
 {
 	if (!ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "cd") || !ft_strcmp(cmd,
@@ -30,8 +42,8 @@ int	is_builtin_command(char *cmd)
 
 int	run_one_builtin(t_data *data, t_env **envp)
 {
-	int flag;
-	t_us_var var;
+	int			flag;
+	t_us_var	var;
 
 	flag = 0;
 	if (!data->cmd || !data->cmd[0])

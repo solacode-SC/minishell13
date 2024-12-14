@@ -217,7 +217,7 @@ int					handle_change_directory(t_data *data, t_env *env,
 						char *tmp);
 int					cd(t_data *data, t_env *env);
 void				input_output_free(t_data *data, t_us_var *var);
-void				handle_CTRL_C(int sig);
+void				handle_ctrl_c(int sig);
 void				f(int sig);
 void				free_data(t_data *data);
 void				free_envp(t_env *envp);
@@ -266,9 +266,9 @@ void				apend_in_struct(t_lexer **lexer, char *str, int type);
 void				apend_to_file(t_lexer *lexer, int type, t_file **file,
 						t_env *envp);
 int					count_env(t_env *env);
+void				free_herdoc(int exit_s, char *str);
 char				*ft_getenv(t_env *env, char *str);
 char				**get_envp(t_env *envp, char **env);
-void				handle_CTRL_C(int sig);
 char				**ft_catstr(char **str, char **str1);
 void				check_word_expand(char *str, t_var *var);
 void				ft_execve(t_data *data, t_us_var var, t_env *envp,

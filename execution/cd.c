@@ -79,6 +79,7 @@ int	handle_change_directory(t_data *data, t_env *env, char *tmp)
 	}
 	return (0);
 }
+
 int	cd(t_data *data, t_env *env)
 {
 	char	*tmp;

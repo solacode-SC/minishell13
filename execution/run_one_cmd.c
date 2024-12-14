@@ -47,6 +47,7 @@ void	run_exuc(t_data *data, char **env, t_env *envp)
 	}
 	ft_execve(data, var, envp, env);
 }
+
 void	run_one_cmd(t_data *data, char **env, t_env **envp)
 {
 	int	pid;
@@ -67,6 +68,7 @@ void	run_one_cmd(t_data *data, char **env, t_env **envp)
 		signal(SIGQUIT, child_handler1);
 		run_exuc(data, env, *envp);
 	}
+	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	check_status(status, *envp);
 }

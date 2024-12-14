@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd_with_pipe.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iait-bou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: soel-mou <soel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 19:20:45 by iait-bou          #+#    #+#             */
-/*   Updated: 2024/12/11 19:21:08 by iait-bou         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:01:16 by soel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_global	g;
+extern t_global	g_var;
 
 void	close_pipes(t_us_var var)
 {
@@ -28,13 +28,14 @@ void	check_status(int status, t_env *envp)
 	{
 		envp->exit = 128 + WTERMSIG(status);
 		if (envp->exit == 131)
-			write(2, "Quit (core dumped\n", 19);
+			write(2, "Quit (core dumped)\n", 20);
 		else if (envp->exit == 130)
 			write(1, "\n", 1);
 	}
 	else
 		envp->exit = WEXITSTATUS(status);
 }
+
 void	wait_for_children(t_us_var var, t_env *envp)
 {
 	int	status;
@@ -49,24 +50,18 @@ void	wait_for_children(t_us_var var, t_env *envp)
 	free_var(&var);
 }
 
-void	free_node(t_data *tmp)
-{
-	free_file(tmp->file);
-	ft_free1(tmp->cmd);
-	free(tmp);
-}
-
 void	init_pipe(t_us_var *var, t_data *data)
 {
-	g.flg = 1;
+	g_var.flg = 1;
 	var->i = 0;
 	var->count_cmd = count_cmd(data);
 	var->id = ft_calloc(sizeof(int), var->count_cmd + 1);
 	var->pipe = ft_calloc(sizeof(int *), var->count_cmd + 1);
 	if (var->id == NULL || !var->pipe)
 		return ;
-	g.var = var;
+	g_var.var = var;
 }
+
 void	run_cmd_with_pipe(t_data **data, char **env, t_env **envp)
 {
 	t_us_var	var;

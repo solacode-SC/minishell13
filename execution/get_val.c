@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_val.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iait-bou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: soel-mou <soel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 19:17:59 by iait-bou          #+#    #+#             */
-/*   Updated: 2024/12/11 19:18:03 by iait-bou         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:40:15 by soel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,11 @@ char	*get_val(t_env *env, char *str)
 	if (*s == '\0')
 		return (NULL);
 	return (s);
+}
+
+void	free_node(t_data *tmp)
+{
+	free_file(tmp->file);
+	ft_free1(tmp->cmd);
+	free(tmp);
 }

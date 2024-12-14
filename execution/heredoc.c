@@ -3,25 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iait-bou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: soel-mou <soel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 19:25:08 by iait-bou          #+#    #+#             */
-/*   Updated: 2024/12/11 19:25:14 by iait-bou         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:03:41 by soel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_global	g;
-void	free_herdoc(int exit_s, char *str)
-{
-	if (str)
-		printf("%s\n", str);
-	free_data(g.data);
-	free_envp(g.env);
-	clear_history();
-	exit(exit_s);
-}
 int	count_heredoc(t_data *data)
 {
 	t_file	*file;
@@ -85,18 +75,14 @@ int	wait_children(int pid, t_file *newfile)
 	close(newfile->fd[1]);
 	return (0);
 }
+
 int	heredoc(t_data *data, t_env *env)
 {
 	t_file	*file;
 	int		pid;
 
 	if (count_heredoc(data) > 16)
-	{
-		// ft_putstr("minishell: maximum here-document count exceeded") ;
 		free_herdoc(2, "maximum here-document count exceeded");
-		/// freee to do please do no forget .........
-		exit(2);
-	}
 	while (data)
 	{
 		file = data->file;
@@ -107,11 +93,7 @@ int	heredoc(t_data *data, t_env *env)
 				pipe(file->fd);
 				pid = fork();
 				if (pid == 0)
-				{
-					// printf("hii\n") ;
-					// signal don't forgr  again please ..
 					read_from_heredoc(file, env);
-				}
 				if (wait_children(pid, file))
 					return (1);
 			}

@@ -6,7 +6,7 @@
 /*   By: iait-bou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 19:14:46 by iait-bou          #+#    #+#             */
-/*   Updated: 2024/12/11 19:14:50 by iait-bou         ###   ########.fr       */
+/*   Updated: 2024/12/12 20:32:27 by iait-bou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	add_default_path(t_env **envp)
 	if (new_node == NULL)
 		return ;
 	new_node->var = ft_strdup("PATH");
-	new_node->value = ft_strdup("/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+	new_node->value = ft_strdup("/usr/local/sbin:/usr/local/bin:\
+	/usr/sbin:/usr/bin:/sbin:/bin");
 	new_node->egnor = 1;
 	ft_add_node_to_env_list(envp, new_node);
 }
@@ -94,72 +95,4 @@ void	ft_add_node_to_env_list(t_env **env, t_env *new_node)
 	}
 	else
 		*env = new_node;
-}
-
-char	*ft_extract_variable_name(char *str)
-{
-	int		i;
-	char	*var_name;
-	int		len;
-
-	i = 0;
-	len = 0;
-	while (str[len] && str[len] != '=' && str[len] != '+')
-		len++;
-	var_name = ft_calloc(sizeof(char), len + 1);
-	if (var_name == NULL)
-		return (NULL);
-	len = 0;
-	while (str[i] && str[i] != '=')
-	{
-		if (str[i] != '+')
-			var_name[len++] = str[i];
-		i++;
-	}
-	var_name[len] = '\0';
-	return (var_name);
-}
-
-int	update_existing_variable(char *var, char *value, t_env *envp)
-{
-	while (envp)
-	{
-		if (!ft_strcmp(envp->var, var))
-		{
-			if (ft_strchr(value, '='))
-			{
-				if (envp->value)
-					free(envp->value);
-				envp->value = value;
-				envp->egnor = 0;
-			}
-			free(var);
-			return (1);
-		}
-		envp = envp->next;
-	}
-	return (0);
-}
-
-void	ft_add_env_var(char *env_var, t_env **envp)
-{
-	char	*value;
-	char	*var_name;
-	t_env	*new_env;
-
-	var_name = ft_extract_variable_name(env_var);
-	value = ft_strsrch(env_var, '=');
-	if (value)
-		value = ft_strdup(value);
-	if (update_existing_variable(var_name, value, *envp))
-		return ;
-	else
-	{
-		new_env = ft_calloc(sizeof(t_env), 1);
-		if (!new_env)
-			return ;
-		new_env->value = value;
-		new_env->var = var_name;
-		ft_add_node_to_env_list(envp, new_env);
-	}
 }

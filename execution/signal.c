@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iait-bou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: soel-mou <soel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 19:17:12 by iait-bou          #+#    #+#             */
-/*   Updated: 2024/12/11 19:17:16 by iait-bou         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:01:47 by soel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_global	g;
+extern t_global	g_var;
 
-void	handle_CTRL_C(int sig)
+void	handle_ctrl_c(int sig)
 {
 	(void)sig;
 	printf("\n");
-	g.exit_s = 130;
+	g_var.exit_s = 130;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -28,8 +28,8 @@ void	handle_CTRL_C(int sig)
 void	f(int sig)
 {
 	(void)sig;
-	free_data(g.data);
-	free_envp(g.env);
+	free_data(g_var.data);
+	free_envp(g_var.env);
 	clear_history();
 	exit(130);
 }
